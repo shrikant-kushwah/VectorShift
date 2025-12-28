@@ -1,5 +1,3 @@
-// draggableNode.js
-
 export const DraggableNode = ({ type, label, icon }) => {
   const onDragStart = (event, nodeType) => {
     const appData = { nodeType };
@@ -13,13 +11,20 @@ export const DraggableNode = ({ type, label, icon }) => {
 
   return (
     <div
-      className={`text-gray-600 border-2 border-gray-300 rounded-lg min-w-24 min-h-20 gap-2 cursor-grab bg-white flex items-center justify-center flex-col p-2 flex-wrap ${type}`}
+      className={`
+        cursor-grab bg-white text-gray-700 
+        border border-gray-200 rounded-lg 
+        w-20 h-20 flex flex-col items-center justify-center 
+        shadow-sm hover:shadow-md hover:border-blue-400 hover:text-blue-500
+        transition-all duration-200
+        ${type}
+      `}
       onDragStart={(event) => onDragStart(event, type)}
       onDragEnd={(event) => (event.target.style.cursor = "grab")}
       draggable
     >
-      <span className="text-2xl">{icon}</span>
-      <span className="text-sm">{label}</span>
+      <span className="text-2xl mb-1">{icon}</span>
+      <span className="text-xs font-medium">{label}</span>
     </div>
   );
 };

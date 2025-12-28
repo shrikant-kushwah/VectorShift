@@ -1,4 +1,4 @@
-import { Bounce, Slide, toast, ToastContainer } from "react-toastify";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStore } from "./store";
 import { shallow } from "zustand/shallow";
@@ -16,7 +16,7 @@ export const SubmitButton = () => {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        "https://vectorshift-assignment.onrender.com/pipelines/parse",
+        process.env.REACT_APP_API_URL || "http://127.0.0.1:8000/pipelines/parse",
         {
           method: "POST",
           headers: {

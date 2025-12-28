@@ -7,7 +7,7 @@ export const ColorPickerNode = (props) => {
     {
       label: "Pick a color",
       name: "selectedColor",
-      type: "text",
+      type: "color",
       default: "#000000",
     },
   ];
@@ -23,15 +23,6 @@ export const ColorPickerNode = (props) => {
       customFields={customFields}
       inputHandles={inputHandles}
       outputHandles={outputHandles}
-      children={
-        <div>
-          <input
-            type="color"
-            value={data?.selectedColor || "#000000"}
-            onChange={(e) => console.log(e.target.value)}
-          />
-        </div>
-      }
     />
   );
 };
