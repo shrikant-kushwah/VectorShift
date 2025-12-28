@@ -3,19 +3,24 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel 
 from typing import List, Dict
 import networkx as nx
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
-# Add the CORS middleware configuration
+origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=origins, 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Define the schema for nodes and edges
+
 class Node(BaseModel):
     id: str
     type: str
@@ -32,25 +37,19 @@ class Pipeline(BaseModel):
 
 @app.post("/pipelines/parse")
 async def parse_pipeline(pipeline: Pipeline):
-    # Number of nodes and edges
     num_nodes = len(pipeline.nodes)
     num_edges = len(pipeline.edges)
 
-    # Create a directed graph using networkx
     G = nx.DiGraph()
 
-    # Add nodes to the graph
     for node in pipeline.nodes:
         G.add_node(node.id)
 
-    # Add edges to the graph
     for edge in pipeline.edges:
         G.add_edge(edge.source, edge.target)
 
-    # Check if the graph is a Directed Acyclic Graph (DAG)
     is_dag = nx.is_directed_acyclic_graph(G)
 
-    # Return the result
     return {
         "num_nodes": num_nodes,
         "num_edges": num_edges,
